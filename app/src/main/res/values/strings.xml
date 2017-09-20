@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">手机安全大师</string>
+    <string name="text_author">开发者：林涛</string>
 </resources>

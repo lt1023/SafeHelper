@@ -12,10 +12,8 @@ import android.widget.Toast;
 public class ToastUtil {
 
     public static void doToast(Context context, String text){
-        Toast toast = new Toast(context);
-        toast.setText(text);
-        toast.setDuration(Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER,0,0);
+        Toast toast = Toast.makeText(context,text,Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.BOTTOM,0,200);
         toast.show();
         //Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
     }
