@@ -2,6 +2,7 @@ package com.safehelper.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.view.Gravity;
 import android.widget.Toast;
 
 /**
@@ -9,9 +10,13 @@ import android.widget.Toast;
  */
 
 public class ToastUtil {
-    static Context mContext;
+
     public static void doToast(Context context, String text){
-        mContext = context;
-        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+        Toast toast = new Toast(context);
+        toast.setText(text);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER,0,0);
+        toast.show();
+        //Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
     }
 }
