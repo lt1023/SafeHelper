@@ -15,6 +15,5 @@ public class ToastUtil {
         Toast toast = Toast.makeText(context,text,Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.BOTTOM,0,200);
         toast.show();
-        //Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
     }
 }

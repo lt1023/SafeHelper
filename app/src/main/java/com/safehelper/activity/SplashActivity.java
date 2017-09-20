@@ -7,9 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
-
 import com.safehelper.R;
 import com.safehelper.utils.ToastUtil;
 import static com.safehelper.utils.NetWorkUtil.isNetworkAvailable;
@@ -58,6 +56,12 @@ public class SplashActivity extends AppCompatActivity {
             finish();
         }else {
             ToastUtil.doToast(this,"网络连接失败");
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    turn2MainActivity();
+                }
+            },2000);
         }
     }
 
