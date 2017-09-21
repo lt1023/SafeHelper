@@ -38,7 +38,7 @@ public class UpdateUtil {
     /**
      * 获取版本名并在界面设置版本名称
      */
-    public static String getPackageVersion(Context context) {
+    public static String getPackageVersionName(Context context) {
         PackageManager pm = context.getPackageManager();
         try {
             PackageInfo pi = pm.getPackageInfo("com.safehelper",0);
@@ -48,5 +48,19 @@ public class UpdateUtil {
             e.printStackTrace();
         }
         return null;
+    }
+    /**
+     * 获取版本号
+     */
+    public static int getPackageVersionCode(Context context) {
+        PackageManager pm = context.getPackageManager();
+        try {
+            PackageInfo pi = pm.getPackageInfo("com.safehelper",0);
+            int versionCode = pi.versionCode;
+            return versionCode;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

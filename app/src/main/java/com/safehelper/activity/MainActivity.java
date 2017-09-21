@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import static com.safehelper.utils.UpdateUtil.getPackageVersion;
+import static com.safehelper.utils.UpdateUtil.getPackageVersionCode;
 import static com.safehelper.utils.UpdateUtil.stream2String;
 
 /**
@@ -31,8 +31,14 @@ public class MainActivity extends Activity{
     private static final int NEWESTVERSION = 0x123;
     //需要更新版本
     private static final int UPDATEVERSION = 0x124;
+    //网络连接错误
+    private static final int URLERROR = 0x125;
+    //读取错误错误
+    private static final int IOERROR = 0x126;
+    //JSON格式错误错误
+    private static final int JSONERROR = 0x127;
     //获取包的版本
-    private float PACKAGEVERSION;
+    private int PACKAGEVERSION;
     //最新版本
     String versionName;
     //新版本介绍
@@ -52,6 +58,15 @@ public class MainActivity extends Activity{
                 break;
                 case UPDATEVERSION:
                     ToastUtil.doToast(MainActivity.this,"恭喜你是最新的版本");
+                    break;
+                case URLERROR:
+                    ToastUtil.doToast(MainActivity.this,"网络请求失败");
+                    break;
+                case IOERROR:
+                    ToastUtil.doToast(MainActivity.this,"读取错误");
+                    break;
+                case JSONERROR:
+                    ToastUtil.doToast(MainActivity.this,"json格式错误");
                     break;
                 default:
                     return;
@@ -86,18 +101,18 @@ public class MainActivity extends Activity{
     }
 
     private void update() {
-        PACKAGEVERSION = Float.parseFloat(getPackageVersion(this)) ;
+        PACKAGEVERSION = getPackageVersionCode(this);
         getNewestVersion(PACKAGEVERSION);
     }
     /**
      * 检测版本更新-----在MainActivity中检测
      * @return
      */
-    public void getNewestVersion(final float currentVersion){
+    public void getNewestVersion(final int currentVersion){
         new Thread(){
             @Override
             public void run() {
-                Message message ;
+                Message message = new Message();;
                 Bundle data = new Bundle();
                 try {
                     URL updateUrl = new URL(update_url);
@@ -115,24 +130,21 @@ public class MainActivity extends Activity{
                     data.putString("versionName",versionName);
                     data.putString("versionDesc",versionDesc);
                     data.putString("downloadUrl",downloadUrl);
-                    if (currentVersion <Float.parseFloat(versionName)){
+                    if (currentVersion < Integer.parseInt(versionCode)){
                         Log.i(TAG,"最新版本为:" + versionName);
-                        message = new Message();
                         message.what = NEWESTVERSION;
                         message.setData(data);
-                        mHandler.sendMessage(message);
                     }else {
-                        message = new Message();
                         message.what = UPDATEVERSION;
-                        mHandler.sendMessage(message);
                     }
                 } catch (MalformedURLException e) {
-                    e.printStackTrace();
+                    message.what = URLERROR;
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    message.what = IOERROR;
                 }catch (JSONException e){
-                    e.printStackTrace();
+                    message.what = JSONERROR;
                 }
+                mHandler.sendMessage(message);
             }
         }.start();
     }

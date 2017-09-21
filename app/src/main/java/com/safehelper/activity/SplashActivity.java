@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.safehelper.R;
 import com.safehelper.utils.ToastUtil;
 import static com.safehelper.utils.NetWorkUtil.isNetworkAvailable;
-import static com.safehelper.utils.UpdateUtil.getPackageVersion;
+import static com.safehelper.utils.UpdateUtil.getPackageVersionName;
 
 
 public class SplashActivity extends AppCompatActivity {
@@ -30,7 +30,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        String versionName = getPackageVersion(this);
+        String versionName = getPackageVersionName(this);
         version = (TextView) findViewById(R.id.tv_slpash_version);
         version.setText("version : " + versionName);
         mHandler.sendEmptyMessageDelayed(SPLASH_TO_MAIN,5*1000);
