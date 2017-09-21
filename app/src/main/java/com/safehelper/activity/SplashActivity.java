@@ -53,7 +53,6 @@ public class SplashActivity extends AppCompatActivity {
     private void checkNetWork() {
         if (isNetworkAvailable(this)){
             turn2MainActivity();
-            finish();
         }else {
             ToastUtil.doToast(this,"网络连接失败");
             mHandler.postDelayed(new Runnable() {
@@ -70,5 +69,6 @@ public class SplashActivity extends AppCompatActivity {
      */
     private void turn2MainActivity() {
         startActivity(new Intent(this,MainActivity.class));
+        finish();
     }
 }
