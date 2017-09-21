@@ -11,11 +11,13 @@ import android.widget.TextView;
 import com.safehelper.R;
 import com.safehelper.utils.ToastUtil;
 import static com.safehelper.utils.NetWorkUtil.isNetworkAvailable;
+import static com.safehelper.utils.UpdateUtil.getPackageVersion;
 
 
 public class SplashActivity extends AppCompatActivity {
     private TextView version;
     private static final int SPLASH_TO_MAIN = 0X123;
+
     private Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -28,23 +30,10 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        getPackageVersion();
-        mHandler.sendEmptyMessageDelayed(SPLASH_TO_MAIN,5*1000);
-    }
-
-    /**
-     * 获取版本名并在界面设置版本名称
-     */
-    private void getPackageVersion() {
+        String versionName = getPackageVersion(this);
         version = (TextView) findViewById(R.id.tv_slpash_version);
-        PackageManager pm = getPackageManager();
-        try {
-            PackageInfo pi = pm.getPackageInfo("com.safehelper",0);
-            String versionName = pi.versionName;
-            version.setText("version : " + versionName);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        version.setText("version : " + versionName);
+        mHandler.sendEmptyMessageDelayed(SPLASH_TO_MAIN,5*1000);
     }
 
     /**
