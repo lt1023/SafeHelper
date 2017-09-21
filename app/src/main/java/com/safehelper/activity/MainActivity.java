@@ -30,7 +30,7 @@ public class MainActivity extends Activity{
     //需要更新版本
     private static final int UPDATEVERSION = 0x124;
     //获取包的版本
-    private String PACKAGEVERSION;
+    private float PACKAGEVERSION;
 
     private Handler mHandler = new Handler(){
         @Override
@@ -56,14 +56,14 @@ public class MainActivity extends Activity{
     }
 
     private void update() {
-        PACKAGEVERSION = getPackageVersion(this);
+        PACKAGEVERSION = Float.parseFloat(getPackageVersion(this)) ;
         getNewestVersion(PACKAGEVERSION);
     }
     /**
      * 检测版本更新-----在MainActivity中检测
      * @return
      */
-    public void getNewestVersion(final String currentVersion){
+    public void getNewestVersion(final float currentVersion){
         new Thread(){
             @Override
             public void run() {
@@ -80,7 +80,7 @@ public class MainActivity extends Activity{
                     final String versionName = updatejson.getString("versionName");
                     final String versionDesc = updatejson.getString("versionDesc");
                     final String downloadUrl = updatejson.getString("downloadUrl");
-                    if (currentVersion != versionCode){
+                    if (currentVersion <Float.parseFloat(versionCode)){
                         Log.i(TAG,"最新版本为:" + versionName);
                         message = new Message();
                         message.what = NEWESTVERSION;
