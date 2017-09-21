@@ -41,7 +41,7 @@ public class MainActivity extends Activity{
     private int PACKAGEVERSION;
     //最新版本
     String versionName;
-    //新版本介绍
+    //新版本介绍的
     private String versionDesc;
     //新版本下载地址
     private String downloadUrl;
