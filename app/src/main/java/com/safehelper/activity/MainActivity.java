@@ -16,9 +16,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-
 import static com.safehelper.utils.UpdateUtil.getPackageVersion;
 import static com.safehelper.utils.UpdateUtil.stream2String;
 
@@ -64,7 +61,7 @@ public class MainActivity extends Activity{
 
     private void showUpdateDialog(String name, String desc,final String url) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(name + "版本更新");
+        builder.setTitle("版本更新");
         builder.setMessage(desc);
         builder.setPositiveButton("下次再说", new DialogInterface.OnClickListener() {
             @Override
@@ -118,7 +115,7 @@ public class MainActivity extends Activity{
                     data.putString("versionName",versionName);
                     data.putString("versionDesc",versionDesc);
                     data.putString("downloadUrl",downloadUrl);
-                    if (currentVersion <Float.parseFloat(versionCode)){
+                    if (currentVersion <Float.parseFloat(versionName)){
                         Log.i(TAG,"最新版本为:" + versionName);
                         message = new Message();
                         message.what = NEWESTVERSION;
