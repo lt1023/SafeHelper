@@ -28,7 +28,7 @@ public class MainActivity extends Activity{
 
     public static final String TAG = "----update----";
     //更新json的url
-    private static final String update_url = "http://192.168.2.129:8080/app/update.json";
+    private static final String update_url = "http://www.zerown.top/app/update.json";
     //最新版本
     private static final int NEWESTVERSION = 0x123;
     //需要更新版本
@@ -124,6 +124,7 @@ public class MainActivity extends Activity{
                     connection.setReadTimeout(3*1000);
                     InputStream is = connection.getInputStream();
                     String updateInfo = stream2String(is);
+                    Log.i(TAG, updateInfo);
                     JSONObject updatejson = new JSONObject(updateInfo);
                     final String versionCode = updatejson.getString("versionCode");
                     final String versionName = updatejson.getString("versionName");
@@ -141,10 +142,13 @@ public class MainActivity extends Activity{
                         message.what = UPDATEVERSION;
                     }
                 } catch (MalformedURLException e) {
+
                     message.what = URLERROR;
                 } catch (IOException e) {
+                    e.printStackTrace();
                     message.what = IOERROR;
                 }catch (JSONException e){
+                    e.printStackTrace();
                     message.what = JSONERROR;
                 }
                 mHandler.sendMessage(message);
