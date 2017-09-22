@@ -9,6 +9,8 @@ import android.os.Message;
 import android.util.Log;
 import com.safehelper.R;
 import com.safehelper.utils.ToastUtil;
+import com.safehelper.utils.UpdateUtil;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
@@ -26,7 +28,7 @@ public class MainActivity extends Activity{
 
     public static final String TAG = "----update----";
     //更新json的url
-    private static final String update_url = "http://192.168.2.131:8080/app/update.json";
+    private static final String update_url = "http://192.168.2.129:8080/app/update.json";
     //最新版本
     private static final int NEWESTVERSION = 0x123;
     //需要更新版本
@@ -87,7 +89,8 @@ public class MainActivity extends Activity{
         builder.setNegativeButton("立即更新", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                ToastUtil.doToast(MainActivity.this,"更新地址是：" + url);
+                Log.i(TAG, "你点击了更新按钮");
+                UpdateUtil.downloadUpdate(MainActivity.this,url);
             }
         });
         builder.show();

@@ -1,6 +1,5 @@
 package com.safehelper.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.Gravity;
 import android.widget.Toast;
@@ -16,4 +15,5 @@ public class ToastUtil {
         toast.setGravity(Gravity.BOTTOM,0,200);
         toast.show();
     }
+
 }
