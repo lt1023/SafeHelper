@@ -1,11 +1,9 @@
 package com.safehelper.activity;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -16,7 +14,7 @@ import static com.safehelper.utils.NetWorkUtil.isNetworkAvailable;
 import static com.safehelper.utils.UpdateUtil.getPackageVersionName;
 
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends Activity {
     private TextView version;
     private static final int SPLASH_TO_MAIN = 0X123;
 
