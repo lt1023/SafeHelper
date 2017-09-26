@@ -1,6 +1,9 @@
-package com.safehelper;
+package com.safehelper.application;
 
 import android.app.Application;
+
+import com.safehelper.BuildConfig;
+
 import org.xutils.x;
 /**
  * Created by Administrator on 2017/9/22.

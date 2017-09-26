@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.widget.TextView;
+
 import com.safehelper.R;
 import com.safehelper.utils.ToastUtil;
 import com.safehelper.utils.UpdateUtil;
@@ -28,8 +30,9 @@ public class MainActivity extends Activity{
 
     public static final String TAG = "----update----";
     //更新json的url
-    //private static final String update_url = "http://zerown.ohday.cn/app/update.json";
+    //private static final String update_url = "http://www.zerown.top/app/update.json";
     private static final String update_url = "http://192.168.2.129:8080/app/update.json";
+
     //最新版本
     private static final int NEWESTVERSION = 0x123;
     //需要更新版本
@@ -40,6 +43,7 @@ public class MainActivity extends Activity{
     private static final int IOERROR = 0x126;
     //JSON格式错误错误
     private static final int JSONERROR = 0x127;
+
     //获取包的版本
     private int PACKAGEVERSION;
     //最新版本
@@ -48,6 +52,8 @@ public class MainActivity extends Activity{
     private String versionDesc;
     //新版本下载地址
     private String downloadUrl;
+
+    private TextView marqueeTV;
     private Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -102,6 +108,15 @@ public class MainActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         update();
+        initView();
+    }
+
+    /**
+     * 初始化View
+     */
+    private void initView() {
+        marqueeTV = (TextView) findViewById(R.id.tv_marquee);
+        marqueeTV.setText(R.string.main_marquee_text);
     }
 
     private void update() {

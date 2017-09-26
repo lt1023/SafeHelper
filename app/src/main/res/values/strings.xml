@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">手机安全大师</string>
     <string name="text_author">developer：林涛</string>
+    <string name="app_title">功能界面</string>
+    <string name="main_marquee_text">温馨提示:手机安全保证自己财产安全，定期给手机体检，让手机处于相对安全的环境！</string>
 </resources>

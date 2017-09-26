@@ -7,6 +7,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.TextView;
 import com.safehelper.R;
 import com.safehelper.utils.ToastUtil;
@@ -34,6 +36,16 @@ public class SplashActivity extends AppCompatActivity {
         version = (TextView) findViewById(R.id.tv_slpash_version);
         version.setText("version : " + versionName);
         mHandler.sendEmptyMessageDelayed(SPLASH_TO_MAIN,5*1000);
+        initAnimation();
+    }
+
+    /***
+     * 动画效果
+     */
+    private void initAnimation() {
+        Animation alpha = new AlphaAnimation(0,1);
+        alpha.setDuration(2*1000);
+        findViewById(R.id.activity_splash).startAnimation(alpha);
     }
 
     /**
