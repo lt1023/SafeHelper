@@ -16,13 +16,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.TextView;
-
 import com.safehelper.R;
 import com.safehelper.utils.ToastUtil;
 import com.safehelper.utils.UpdateUtil;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
@@ -30,9 +27,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.safehelper.utils.UpdateUtil.getPackageVersionCode;
 import static com.safehelper.utils.UpdateUtil.stream2String;
 
