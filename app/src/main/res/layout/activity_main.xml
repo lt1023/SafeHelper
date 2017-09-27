@@ -24,4 +24,11 @@
             android:padding="0dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+    <GridView
+        android:id="@+id/gv_home"
+        android:numColumns="3"
+        android:verticalSpacing="20dp"
+        android:layout_below="@id/tv_marquee"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </RelativeLayout>

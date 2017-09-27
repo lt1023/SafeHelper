@@ -7,6 +7,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.safehelper.R;
@@ -54,6 +59,10 @@ public class MainActivity extends Activity{
     private String downloadUrl;
 
     private TextView marqueeTV;
+    private GridView gv_home;
+
+    private String[] titles;
+    private int[] images;
     private Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -109,6 +118,21 @@ public class MainActivity extends Activity{
         setContentView(R.layout.activity_main);
         update();
         initView();
+        initData();
+    }
+
+    private void initData() {
+        marqueeTV.setText(R.string.main_marquee_text);
+        titles = new String[]{
+                "手机防盗","通信卫士","软件管理","进程管理","流量统计","手机杀毒","缓存管理","高级工具","设置中心"
+        };
+        images = new int[]{
+                R.drawable.image_phonethefe_selector, R.drawable.communicat,
+                R.drawable.image_appmanager_selector, R.drawable.image_progmanager_selector,
+                R.drawable.image_netcount_selector, R.drawable.image_mcafee_selector,
+
+        };
+        gv_home.setAdapter(new GridViewAdapter());
     }
 
     /**
@@ -116,15 +140,18 @@ public class MainActivity extends Activity{
      */
     private void initView() {
         marqueeTV = (TextView) findViewById(R.id.tv_marquee);
-        marqueeTV.setText(R.string.main_marquee_text);
+        gv_home = (GridView) findViewById(R.id.gv_home);
     }
 
+    /**
+     * 检测更新
+     */
     private void update() {
         PACKAGEVERSION = getPackageVersionCode(this);
         getNewestVersion(PACKAGEVERSION);
     }
     /**
-     * 检测版本更新-----在MainActivity中检测
+     * 检测最新版本-----在MainActivity中检测
      * @return
      */
     public void getNewestVersion(final int currentVersion){
@@ -170,5 +197,27 @@ public class MainActivity extends Activity{
                 mHandler.sendMessage(message);
             }
         }.start();
+    }
+
+    private class GridViewAdapter extends BaseAdapter {
+        @Override
+        public int getCount() {
+            return 0;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            return null;
+        }
     }
 }
