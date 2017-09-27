@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true" android:drawable="@drawable/shoujifangdaopress"/>
-    <item android:drawable="@drawable/shoujifangdaonormal"/>
+    <item android:drawable="@drawable/shoujifangdaonormal" android:state_pressed="false"/>
 </selector>

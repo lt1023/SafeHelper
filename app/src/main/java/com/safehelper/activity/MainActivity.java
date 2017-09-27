@@ -3,14 +3,19 @@ package com.safehelper.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
@@ -25,6 +30,9 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.safehelper.utils.UpdateUtil.getPackageVersionCode;
 import static com.safehelper.utils.UpdateUtil.stream2String;
 
@@ -48,6 +56,8 @@ public class MainActivity extends Activity{
     private static final int IOERROR = 0x126;
     //JSON格式错误错误
     private static final int JSONERROR = 0x127;
+    //自动切换viewpager
+    private static final int AUTONEXT = 0x128;
 
     //获取包的版本
     private int PACKAGEVERSION;
@@ -60,9 +70,13 @@ public class MainActivity extends Activity{
 
     private TextView marqueeTV;
     private GridView gv_home;
+    private ViewPager mVpager_home;
 
     private String[] titles;
     private int[] images;
+    private int[] imgs_bananers;
+    private ImageView[] bananers;
+
     private Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -86,6 +100,10 @@ public class MainActivity extends Activity{
                 case JSONERROR:
                     ToastUtil.doToast(MainActivity.this,"json格式错误");
                     break;
+                case AUTONEXT:
+                    int index = mVpager_home.getCurrentItem();
+                    mVpager_home.setCurrentItem((index + 1) % imgs_bananers.length);
+                    mHandler.sendEmptyMessageDelayed(AUTONEXT , 10*1000);
                 default:
                     return;
             }
@@ -119,20 +137,33 @@ public class MainActivity extends Activity{
         update();
         initView();
         initData();
+        mHandler.sendEmptyMessageDelayed(AUTONEXT , 10*1000);
     }
 
     private void initData() {
         marqueeTV.setText(R.string.main_marquee_text);
+
         titles = new String[]{
                 "手机防盗","通信卫士","软件管理","进程管理","流量统计","手机杀毒","缓存管理","高级工具","设置中心"
         };
         images = new int[]{
-                R.drawable.image_phonethefe_selector, R.drawable.communicat,
+                R.drawable.image_phonethefe_selector, R.drawable.image_communicate_selector,
                 R.drawable.image_appmanager_selector, R.drawable.image_progmanager_selector,
                 R.drawable.image_netcount_selector, R.drawable.image_mcafee_selector,
-
+                R.drawable.image_cachemanager_selector,R.drawable.image_supertool_selector,
+                R.drawable.image_settingcenter_selector
         };
+        imgs_bananers = new int[]{
+                R.drawable.bananer01, R.drawable.bananer02, R.drawable.bananer03
+        };
+        bananers = new ImageView[imgs_bananers.length];
+        for (int i = 0; i < imgs_bananers.length; i++) {
+            ImageView imgview = new ImageView(this);
+            bananers[i] = imgview;
+            imgview.setBackgroundResource(imgs_bananers[i]);
+        }
         gv_home.setAdapter(new GridViewAdapter());
+        mVpager_home.setAdapter(new MPagerAdapter());
     }
 
     /**
@@ -141,6 +172,9 @@ public class MainActivity extends Activity{
     private void initView() {
         marqueeTV = (TextView) findViewById(R.id.tv_marquee);
         gv_home = (GridView) findViewById(R.id.gv_home);
+        gv_home.setSelector(new ColorDrawable(Color.TRANSPARENT));
+        mVpager_home = (ViewPager) findViewById(R.id.vpager_home);
+
     }
 
     /**
@@ -202,22 +236,50 @@ public class MainActivity extends Activity{
     private class GridViewAdapter extends BaseAdapter {
         @Override
         public int getCount() {
-            return 0;
+            return titles.length;
         }
 
         @Override
         public Object getItem(int position) {
-            return null;
+            return titles[position];
         }
 
         @Override
         public long getItemId(int position) {
-            return 0;
+            return position;
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            return null;
+            View view = View.inflate(getApplicationContext(), R.layout.gv_item, null);
+            ImageView iv_image_item = (ImageView) view.findViewById(R.id.iv_image_item);
+            TextView tv_title_item = (TextView) view.findViewById(R.id.tv_title_item);
+            iv_image_item.setBackgroundResource(images[position]);
+            tv_title_item.setText(titles[position]);
+            return view;
+        }
+    }
+
+    private class MPagerAdapter extends PagerAdapter {
+        @Override
+        public int getCount() {
+            return bananers.length;
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == object;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView(bananers[position]);
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            container.addView(bananers[position]);
+            return bananers[position];
         }
     }
 }
