@@ -139,6 +139,7 @@ public class UpdateUtil {
         });
     }
 
+    //系统安装下载的软件
     private static void installApk(Context context, File apkFile) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(Uri.fromFile(apkFile),"application/vnd.android.package-archive");

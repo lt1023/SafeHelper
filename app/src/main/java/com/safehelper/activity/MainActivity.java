@@ -3,21 +3,26 @@ package com.safehelper.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.safehelper.R;
+import com.safehelper.utils.ConstantSet;
 import com.safehelper.utils.ToastUtil;
 import com.safehelper.utils.UpdateUtil;
 import org.json.JSONException;
@@ -36,10 +41,6 @@ import static com.safehelper.utils.UpdateUtil.stream2String;
 public class MainActivity extends Activity{
 
     public static final String TAG = "----update----";
-    //更新json的url
-    //private static final String update_url = "http://www.zerown.top/app/update.json";
-    private static final String update_url = "http://192.168.2.129:8080/app/update.json";
-
     //最新版本
     private static final int NEWESTVERSION = 0x123;
     //需要更新版本
@@ -71,6 +72,8 @@ public class MainActivity extends Activity{
     private int[] imgs_bananers;
     private ImageView[] bananers;
 
+    //退出间隔时间
+    private long exitTime;
     private Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -132,10 +135,30 @@ public class MainActivity extends Activity{
         initView();
         initData();
         mHandler.sendEmptyMessageDelayed(AUTONEXT , 10*1000);
+        initGirdViewListener();
     }
 
+    //初始化功能点击监听器
+    private void initGirdViewListener() {
+        gv_home.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent();
+                switch (position){
+                    case 0:
+                        ToastUtil.doToast(getApplicationContext(),position + "被点击了");
+                        break;
+                    case 8:
+                        intent.setClass(getApplicationContext(),SettinActivity.class);
+                        startActivity(intent);
+                }
+            }
+        });
+    }
+
+    //初始化数据
     private void initData() {
-        marqueeTV.setText(R.string.main_marquee_text);
+        marqueeTV.setText(ConstantSet.MARQUEE_TEXT);
 
         titles = new String[]{
                 "手机防盗","通信卫士","软件管理","进程管理","流量统计","手机杀毒","缓存管理","高级工具","设置中心"
@@ -168,7 +191,6 @@ public class MainActivity extends Activity{
         gv_home = (GridView) findViewById(R.id.gv_home);
         gv_home.setSelector(new ColorDrawable(Color.TRANSPARENT));
         mVpager_home = (ViewPager) findViewById(R.id.vpager_home);
-
     }
 
     /**
@@ -186,10 +208,10 @@ public class MainActivity extends Activity{
         new Thread(){
             @Override
             public void run() {
-                Message message = new Message();;
+                Message message = new Message();
                 Bundle data = new Bundle();
                 try {
-                    URL updateUrl = new URL(update_url);
+                    URL updateUrl = new URL(ConstantSet.UPDATE_URL);
                     HttpURLConnection connection = (HttpURLConnection) updateUrl.openConnection();
                     connection.setConnectTimeout(5*1000);
                     connection.setReadTimeout(3*1000);
@@ -225,6 +247,7 @@ public class MainActivity extends Activity{
                 mHandler.sendMessage(message);
             }
         }.start();
+
     }
 
     private class GridViewAdapter extends BaseAdapter {
@@ -254,6 +277,9 @@ public class MainActivity extends Activity{
         }
     }
 
+    /**
+     * bananer图适配器
+     */
     private class MPagerAdapter extends PagerAdapter {
         @Override
         public int getCount() {
@@ -274,6 +300,26 @@ public class MainActivity extends Activity{
         public Object instantiateItem(ViewGroup container, int position) {
             container.addView(bananers[position]);
             return bananers[position];
+        }
+    }
+    //双击返回键退出应用
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0){
+            exit();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void exit() {
+        if ((System.currentTimeMillis() - exitTime) > 2000) {
+            ToastUtil.doToast(this,"再点一次退出");
+            exitTime = System.currentTimeMillis();
+        } else {
+            finish();
+            System.exit(0);
         }
     }
 }
