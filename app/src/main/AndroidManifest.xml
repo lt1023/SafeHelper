@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.MainActivity" android:launchMode="singleTask"/>
-        <activity android:name=".activity.SettinActivity"/>
+        <activity android:name=".activity.SettingActivity"/>
     </application>
 
 </manifest>

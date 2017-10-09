@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -149,7 +149,7 @@ public class MainActivity extends Activity{
                         ToastUtil.doToast(getApplicationContext(),position + "被点击了");
                         break;
                     case 8:
-                        intent.setClass(getApplicationContext(),SettinActivity.class);
+                        intent.setClass(getApplicationContext(),SettingActivity.class);
                         startActivity(intent);
                 }
             }
@@ -197,8 +197,13 @@ public class MainActivity extends Activity{
      * 检测更新
      */
     private void update() {
-        PACKAGEVERSION = getPackageVersionCode(this);
-        getNewestVersion(PACKAGEVERSION);
+        SharedPreferences setting = getSharedPreferences("setting", MODE_PRIVATE);
+        boolean isAutoUpdate = setting.getBoolean("isAutoUpdate",true);
+        if (isAutoUpdate){
+            PACKAGEVERSION = getPackageVersionCode(this);
+            getNewestVersion(PACKAGEVERSION);
+        }
+        return;
     }
     /**
      * 检测最新版本-----在MainActivity中检测

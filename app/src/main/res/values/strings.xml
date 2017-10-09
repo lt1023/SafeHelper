@@ -3,5 +3,7 @@
     <string name="text_author">developer：林涛</string>
     <string name="app_title">安全中心</string>
     <string name="activity_setting_text">设 置</string>
+    <string name="text_setting_update">开启更新提示</string>
+    <string name="text_setting_message">开启消息推送</string>
 
 </resources>
